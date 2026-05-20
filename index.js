@@ -33,7 +33,9 @@ async function run() {
     const db = client.db("smart-care-plus-data");
     const doctorsCollection = db.collection("doctors");
 
-    app.get("/appointments", async (req, res) => {
+    const appointmentCollection = db.collection("appointments");
+
+    app.get("/doctors", async (req, res) => {
       try {
         const result = await doctorsCollection.find().toArray();
         res.send(result);
@@ -43,11 +45,16 @@ async function run() {
       }
     });
 
-    app.get("/appointments/:id", async (req, res) => {
+    app.get("/doctors/:id", async (req, res) => {
       const id = req.params.id;
       const result = await doctorsCollection.findOne({
         _id: new ObjectId(id),
       });
+      res.send(result);
+    });
+
+    app.post("/appointments", async (req, res) => {
+      const result = await appointmentCollection.insertOne(req.body);
       res.send(result);
     });
 
