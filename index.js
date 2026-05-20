@@ -4,7 +4,7 @@ const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const uri = process.env.MONGODB_URI;
 
@@ -41,6 +41,14 @@ async function run() {
         console.log(error);
         res.status(500).send({ message: "Server error" });
       }
+    });
+
+    app.get("/appointments/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await doctorsCollection.findOne({
+        _id: new ObjectId(id),
+      });
+      res.send(result);
     });
 
     console.log("MongoDB connected successfully!");
