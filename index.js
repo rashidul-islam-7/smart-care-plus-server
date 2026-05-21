@@ -1,4 +1,3 @@
-
 const express = require("express");
 const app = express();
 
@@ -61,6 +60,14 @@ async function run() {
 
     app.post("/appointments", async (req, res) => {
       const result = await appointmentCollection.insertOne(req.body);
+      res.send(result);
+    });
+
+    app.delete("/appointments/:id", async (req, res) => {
+      const id = req.params;
+      const result = await appointmentCollection.deleteOne({
+        _id: new ObjectId(id),
+      });
       res.send(result);
     });
 
