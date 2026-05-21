@@ -1,3 +1,4 @@
+
 const express = require("express");
 const app = express();
 
@@ -50,6 +51,11 @@ async function run() {
       const result = await doctorsCollection.findOne({
         _id: new ObjectId(id),
       });
+      res.send(result);
+    });
+
+    app.get("/appointments", async (req, res) => {
+      const result = await appointmentCollection.find().toArray();
       res.send(result);
     });
 
