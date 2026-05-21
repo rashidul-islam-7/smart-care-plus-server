@@ -71,6 +71,20 @@ async function run() {
       res.send(result);
     });
 
+    app.patch("/appointments/:id", async (req, res) => {
+      const id = req.params;
+      const updateData = req.body;
+      const result = await appointmentCollection.updateOne(
+        {
+          _id: new ObjectId(id),
+        },
+        {
+          $set: updateData,
+        },
+      );
+      res.send(result);
+    });
+
     console.log("MongoDB connected successfully!");
   } catch (error) {
     console.log(error);
